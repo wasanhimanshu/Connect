@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="10dp"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/messageTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:minWidth="100dp"
+            android:textColor="@color/black"
+            android:background="@drawable/bg_reciever"
+            android:padding="15dp"
+           tools:text="His Message"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/messageIv"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:adjustViewBounds="true"
+            android:padding="15dp"
+            android:src="@drawable/ic_launcher_background"
+            android:scaleType="fitCenter"
+            android:background="@drawable/bg_reciever" />
+
+        <ImageView
+            android:id="@+id/pdfIv"
+            android:layout_width="200dp"
+            android:visibility="gone"
+            android:layout_height="200dp"
+            android:adjustViewBounds="true"
+            android:padding="15dp"
+            android:src="@drawable/pdfd"
+            android:scaleType="fitCenter"
+            android:background="@drawable/bg_reciever" />
+
+
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/timeTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="29/02/2020 05:59PM"
+        android:textColor="@color/black"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/isSeenTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+       tools:text="delivered"
+        android:visibility="gone"
+        android:textAlignment="textEnd" />
+
+
+</LinearLayout>

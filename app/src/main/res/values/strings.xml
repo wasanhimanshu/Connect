@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">Connect</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone Number</string>
+    <string name="pass">Password</string>
+    <string name="register">Register</string>
+    <string name="already_user">Already a user? Login</string>
+    <string name="setup">Setup Profile</string>
+    <string name="forgot_pass">Forgot Password?</string>
+    <string name="login">Login</string>
+    <string name="new_user">New Here? Get Started…</string>
+    <string name="chats">Chats</string>
+    <string name="profile">Profile</string>
+    <string name="users">Users</string>
+    <string name="enter_message">Enter Message..</string>
+    <string name="signout">Signout</string>
+    <string name="phone_p">Phone</string>
+    <string name="bio">Bio</string>
+    <string name="search">Search</string>
+    <string name="welcome">Welcome Back</string>
+    <string name="pleasesignin">Please Sign into your account!</string>
+    <string name="welcomeRegister">Welcome..</string>
+    <string name="register_yourself">Register  yourself to continue…</string>
+    <string name="media">Media</string>
+    <string name="clear_chat">Clear chat</string>
+    <string name="reset">Reset</string>
+    <string name="ok">OK</string>
+    <string name="nomessages">No Messages Here Yet!!</string>
+    <string name="gallery">Gallery</string>
+    <string name="pdf">PDF</string>
+    <string name="block">Block</string>
+    <string name="posts">Posts</string>
+    <string name="whatsonurmind">Whats on your mind!!</string>
+    <string name="enterdesc">Enter Description for the post</string>
+    <string name="post">Post</string>
+    <string name="starredmsg">Starred Messages</string>
+    <string name="deleteallmsg">Delete all Messages</string>
+    <string name="camera">Camera</string>
+
+
+</resources>
