@@ -88,8 +88,11 @@ public class MessageActivity extends AppCompatActivity {
  private LinearLayout empylayout , gallery_ll,pdfll,camera_ll;
     public static final int RESULT_GALLERY = 0;
     public static final int RESULT_PDF = 1;
+    public static final int RESULT_CAMERA = 2;
     private ValueEventListener seenListener;
     private Uri imageUri;
+    private static final int IMAGE_PICK_CAMERA_CODE = 400;
+    String[] cameraPermissions;
     private FirebaseUser mUser;
 
 
@@ -113,6 +116,7 @@ public class MessageActivity extends AppCompatActivity {
         mUser=mAuth.getCurrentUser();
         myuid= Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         mRef=FirebaseDatabase.getInstance().getReference().child("Users");
+        cameraPermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -166,6 +170,7 @@ public class MessageActivity extends AppCompatActivity {
 
                  gallery_ll=b.findViewById(R.id.galley_ll);
                  pdfll=b.findViewById(R.id.pdf_ll);
+                 camera_ll=b.findViewById(R.id.camera_ll);
                  assert gallery_ll != null;
                 gallery_ll.setOnClickListener(new View.OnClickListener() {
                      @Override
@@ -190,6 +195,16 @@ public class MessageActivity extends AppCompatActivity {
                         b.cancel();
 
 
+                    }
+                });
+
+                camera_ll.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!checkCameraPermission()) {
+                            requestCameraPermission();
+                        } else pickFromCamera();
+                    b.cancel();
                     }
                 });
 
@@ -430,7 +445,6 @@ readMessages();
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case RESULT_GALLERY:
                 if (null != data) {
@@ -451,11 +465,24 @@ readMessages();
                         e.printStackTrace();
                     }
 
-                    break;
+
                 }
+                break;
+            case IMAGE_PICK_CAMERA_CODE:
+                if(data!=null) {
+                    imageUri = data.getData();
+                    try{
+                        sendImageMesssage();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+                break;
                 default:
                 break;
         }
+        super.onActivityResult(requestCode, resultCode, data);
+
     }
 
     private void sendPdf() {
@@ -579,6 +606,48 @@ readMessages();
         setLastSeen();
 
     }
+
+    private boolean checkCameraPermission() {
+
+        boolean result = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == (PackageManager.PERMISSION_GRANTED);
+        boolean result1 = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
+        return result && result1;
+    }
+
+    private void requestCameraPermission() {
+        ActivityCompat.requestPermissions(this, cameraPermissions, RESULT_CAMERA);
+    }
+
+    private void pickFromCamera() {
+
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.TITLE, "Temp Pick");
+        values.put(MediaStore.Images.Media.DESCRIPTION, "Temp Description");
+
+        imageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        startActivityForResult(cameraIntent, IMAGE_PICK_CAMERA_CODE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == RESULT_CAMERA) {
+            if (grantResults.length > 0) {
+                boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+               boolean writeStorageAccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+                if (cameraAccepted&& writeStorageAccepted) {
+                    pickFromCamera();
+                } else {
+                    Toast.makeText(this, "Please enable camera and storage permission", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+
 
 
     }
